@@ -6,8 +6,8 @@ data = []
 
 persons = []
 # StartWork = datetime.datetime()
-F_TIMEWORK = r'C:\Users\Виктор\PycharmProjects\WorkTime\Проходная.csv'
-F_PERSONS = r'C:\Users\Виктор\PycharmProjects\WorkTime\Персонал.csv'
+F_TIMEWORK = 'Проходная.csv'
+F_PERSONS = 'Персонал.csv'
 with open(F_TIMEWORK, "r", newline="", encoding='utf-8') as file:
     reader = csv.reader(file)
     for row in reader:
