@@ -1,11 +1,11 @@
 import csv
-import datetime
+from datetime import datetime, time, timedelta
 import calendar
 
 data = []
-
+tabel = []
 persons = []
-# StartWork = datetime.datetime()
+
 F_TIMEWORK = 'Проходная.csv'
 F_PERSONS = 'Персонал.csv'
 with open(F_TIMEWORK, "r", newline="", encoding='utf-8') as file:
@@ -20,10 +20,10 @@ with open(F_PERSONS, "r", newline="", encoding='utf-8') as file:
 
 print('Передвижения во время работы')
 for d in data:
-    d[0] = datetime.datetime.strptime(d[0], '%H:%M:%S %d.%m.%y')
+    d[0] = datetime.strptime(d[0], '%H:%M:%S %d.%m.%y')
     h = d[0].hour
     m = d[0].minute
-    if d[1].find('ПС 330') == -1 == -1:
+    if d[1].find('ПС 330') == -1:
         if (h >= 8 and h < 12) or (h >= 13 and h < 17):
             print(d)
     else:
@@ -31,14 +31,33 @@ for d in data:
             print(d)
 
 print('Нет отметки о приходе')
+s1 = time(8, 0, 0)
+e1 = time(12, 0, 0)
+s2 = time(13, 0, 0)
+e2 = time(17, 0, 0)
 month = calendar.Calendar()
 for p in persons:
     for day in month.itermonthdates(2021, 10):
-        NotWork = True
+        LongTime = time()
+        st = time()
+        en = time()
+        into = False
+        out = False
         for wt in data:
             if wt[0].date() == day and p[0] in wt[1]:
-                NotWork = False
-        if NotWork:
-            w = day.weekday()
-            if w != 5 and w != 6 and day.month == 10:
-                print(day, p)
+                if 'Вход' in wt[1] or 'Въезд' in wt[1]:
+                    into = True
+                    st = wt[0].time()
+                elif 'Выход' in wt[1] or 'Выезд' in wt[1]:
+                    out = True
+                    en = wt[0].time()
+                else:
+                    print(wt, 'Непонятное событие')
+            if into and out:
+                into = False
+                out = False
+                if st < s1 and en < e1 and en > s1:
+                    LongTime = en - timedelta(hours=s1.hour, minutes=s1.minute, seconds=s1.second)
+        w = day.weekday()
+        if w != 5 and w != 6 and day.month == 10:
+                print(day, p, LongTime)
