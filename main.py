@@ -30,7 +30,7 @@ for d in data:
         if (h >= 8 and h < 12) or (h >= 13 and h < 17 and m <= 20):
             print(d)
 
-print('Нет отметки о приходе')
+print('Табель')
 s1 = time(8, 0, 0)
 e1 = time(12, 0, 0)
 s2 = time(13, 0, 0)
@@ -39,25 +39,24 @@ month = calendar.Calendar()
 for p in persons:
     for day in month.itermonthdates(2021, 10):
         LongTime = time()
-        st = time()
-        en = time()
+
         into = False
         out = False
         for wt in data:
             if wt[0].date() == day and p[0] in wt[1]:
                 if 'Вход' in wt[1] or 'Въезд' in wt[1]:
                     into = True
-                    st = wt[0].time()
+                    st = wt[0]
                 elif 'Выход' in wt[1] or 'Выезд' in wt[1]:
                     out = True
-                    en = wt[0].time()
+                    en = wt[0]
                 else:
                     print(wt, 'Непонятное событие')
             if into and out:
                 into = False
                 out = False
                 if st < s1 and en < e1 and en > s1:
-                    LongTime = en - timedelta(hours=s1.hour, minutes=s1.minute, seconds=s1.second)
+                    LongTime = en - st
         w = day.weekday()
         if w != 5 and w != 6 and day.month == 10:
                 print(day, p, LongTime)
