@@ -1,6 +1,5 @@
 import csv
 from datetime import datetime, time, timedelta
-import calendar
 
 data = []
 tabel = []
@@ -36,16 +35,7 @@ for d in data:
 for d in data:
     if data.count(d) >1:
         data.remove(d)
-'''
-    h = d[0].hour
-    m = d[0].minute
-    if d[1].find('ПС 330') == -1:
-        if (h >= 8 and h < 12) or (h >= 13 and h < 17):
-            print(d)
-    else:
-        if (h >= 8 and h < 12) or (h >= 13 and h < 17 and m <= 20):
-            print(d)
-'''
+
 
 print('Табель')
 s1 = timedelta(hours=8, minutes=0, seconds=0)
@@ -58,7 +48,7 @@ e3 = timedelta(hours=16, minutes=20, seconds=0)
 month = calendar.Calendar()
 
 for p in persons:
-    for day in month.itermonthdates(2021, 11):
+    for day in month.itermonthdates(2022, 3):
         LongTime = timedelta()
         period = 0.0
         into = False
@@ -116,5 +106,5 @@ for t in tabel:
 #            print(d[3])
             t[2] = d[3]
 for t in tabel:
-    if t[0].month == 11 and t[0].day < 15 and t[0].weekday() != 5 and t[0].weekday() != 6 and t[2] != '8.0':
+    if t[0].month == 3 and t[0].day <= 31 and t[0].weekday() != 5 and t[0].weekday() != 6 and t[2] != '8.0':
         print(t[0], t[1], t[2])
