@@ -155,7 +155,6 @@ def cross(time1, time2):
 		elif time2.end < time1.end:
 			ls.append(time2)
 	if (time2.end > time1.end) and (time1.start < time2.start < time1.end):
-		ls.append(Time_range(time1.start, time2.start - time1.start))
 		ls.append(
 			Time_range(time2.start, time1.end - time2.start))
 	if time1.end <= time2.start:
